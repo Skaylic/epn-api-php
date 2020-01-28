@@ -21,11 +21,10 @@ class Api2
 	private $_method = false;
 	private $_lang = 'ru';
 
-	function __construct()
+	function __construct($clientId, $clientSecret)
 	{
-		$apiKeys = self::getApiKeys();
-		$this->_clientId = $apiKeys['clientId'];
-		$this->_clientSecret = $apiKeys['clientSecret'];
+		$this->_clientId = $clientId;
+		$this->_clientSecret = $clientSecret;
 	}
 
 	public function ssid()
@@ -162,11 +161,4 @@ class Api2
 		return $url;
 	}
 
-	public function getApiKeys()
-	{
-		$conf = new \App\Conf();
-		$data['clientId'] = $conf->get('clientId');
-		$data['clientSecret'] = $conf->get('clientSecret');
-		return $data;
-	}
 }

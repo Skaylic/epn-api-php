@@ -171,7 +171,7 @@ class Api
 			$this->_last_error_type = 'data';
 		}
 
-		$this->_response = new \App\Models\Epn\Response($data['results']);
+		$this->_response = new \Skay\Epn\Response($data['results']);
 
 		return $this->_last_error == '' ? TRUE : FALSE;
 	}
