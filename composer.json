@@ -1,8 +1,8 @@
 {
-  "name": "Skaylic/epnapi",
+  "name": "Skaylic/epn-api-php",
   "description": "",
   "keywords": ["epn", "aliexpress", "php"],
-  "homepage": "https://github.com/Skaylic/epnapi",
+  "homepage": "https://github.com/Skaylic/epn-api-php",
   "type": "library",
   "license": "MIT",
   "version": "1.0.0",
