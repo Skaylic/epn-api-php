@@ -16,6 +16,7 @@ class Api
 	private $_apiKey = '';
 	private $_userHash = '';
 	public $_filters = array();
+	public $_response = array();
 
 	function __construct($apiKey, $userHash)
 	{
@@ -47,10 +48,10 @@ class Api
 		return TRUE;
 	}
 
-	// Добавление запроса на получение списка категорий.
+	// Получение списка поддерживаемых валют.
 	public function CurrenciesList(string $name)
 	{
-		$this->AddRequest($name, 'list_currencies', []);
+		self::AddRequest($name, 'list_currencies', []);
 		return TRUE;
 	}
 
@@ -72,7 +73,7 @@ class Api
 		];
 		$filters = array_replace($params, $filters);
 		// Добавляем запрос в список
-		$this->AddRequest($name, 'search', $filters);
+		self::AddRequest($name, 'search', $filters);
 		return TRUE;
 	}
 
@@ -84,9 +85,6 @@ class Api
 			'query' => '',
 			'orderby' => '',
 			'order_direction' => '',
-			'limit' => '',
-			'offset' => 0,
-			'category' => '',
 			'store' => '',
 			'price_min' => 0,
 			'price_max' => 10000,
@@ -94,26 +92,20 @@ class Api
 		];
 		$filters = array_replace($params, $filters);
 		// Добавляем запрос в список
-		$this->AddRequest($name, 'count_for_categories', $filters);
+		self::AddRequest($name, 'count_for_categories', $filters);
 		return TRUE;
-	}
-
-	// Получение списка поддерживаемых валют.
-	public function ListCurrencies($name)
-	{
-		$this->AddRequest($name, 'list_currencies', []);
 	}
 
 	public function TopMonthly(string $name, array $filters = [])
 	{
 		$params = [
 			'orderby' => 'sales', //sales,commission
-			'category' => '',
+			'category' => '6',
 			'lang' => 'ru',
 			'currency' => 'RUR'
 		];
 		$filters = array_replace($params, $filters);
-		$this->AddRequest($name, 'top_monthly', $filters);
+		self::AddRequest($name, 'top_monthly', $filters);
 	}
 
 	public function OfferInfo(string $name, array $filters = [])
@@ -124,7 +116,7 @@ class Api
 			'currency' => 'RUR,USD'
 		];
 		$filters = array_replace($params, $filters);
-		$this->AddRequest($name, 'offer_info', $filters);
+		self::AddRequest($name, 'offer_info', $filters);
 	}
 
 	public function RunRequests()
@@ -135,7 +127,7 @@ class Api
 	/**
 	 * @return Response
 	 */
-	public function getResponse($name = false)
+	public function Response($name = false)
 	{
 		if($name)return $this->_response->getData($name);
 		$data = $this->_response;
@@ -154,8 +146,6 @@ class Api
 		$curl = new Curl();
 		$curl->setHeader('Content-Type', 'text/plain');
 		$curl->setUserAgent($_SERVER['HTTP_USER_AGENT']);
-		$curl->setOpt(CURLOPT_RETURNTRANSFER, true);
-		$curl->setOpt(CURLOPT_FOLLOWLOCATION, true);
 		$curl->post(self::API_URL, $post_data);
 		if($curl->curl_error){
 			$this->_last_error = $curl_error_message;
