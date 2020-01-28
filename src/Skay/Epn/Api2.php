@@ -123,14 +123,12 @@ class Api2
 				$curl = new \Curl\Curl();
 				$data = ['client_id' => 'web-client','v'=>self::API_VERSION];
 				$curl->get(self::API_APPEPN_URL.'/ssid', $data);
-				dump($curl);die();
 				$captcha = $error['captcha'];
 				$url = self::API_APPEPN_URL.'/captcha/check';
 				$this->_filters['data']['ssid_token'] = 'd72c3fca402ac11e950a9abfffed0f03';
 				$this->_filters['data']['captcha'] = $captcha['captcha']['site_key'];
 				$this->_filters['data']['captcha_phrase_key'] = $captcha['captcha_phrase_key'];
 				$curl->post($url, $this->_filters);
-				dump($curl);die();
 			}
 			throw new \App\Models\Exception\ErrorException($error['msg'], $error['code']);
 		}

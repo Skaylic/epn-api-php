@@ -157,7 +157,6 @@ class Api
 		$curl->setOpt(CURLOPT_RETURNTRANSFER, true);
 		$curl->setOpt(CURLOPT_FOLLOWLOCATION, true);
 		$curl->post(self::API_URL, $post_data);
-		dump($curl, true);
 		if($curl->curl_error){
 			$this->_last_error = $curl_error_message;
 			$this->_last_error_type = 'network';
